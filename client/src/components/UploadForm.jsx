@@ -12,14 +12,12 @@ const UploadForm = () => {
 
     const handleImageSelect = (e) => {
         const imageFile = e.target.files[0];
-        console.log({ imageFile });
         setFile(imageFile);
         setFileName(imageFile.name);
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("제출");
         const formData = new FormData();
         formData.append("image", file); //서버의 upload.single("image") 이 부분이랑 key 맞춰줘야함
 
