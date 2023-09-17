@@ -11,6 +11,8 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     fileFilter: (req, file, cb) => {
+        console.log("확장자", file.mimetype);
+
         //파일 확장자 제어
         if (
             ["image/png", "image/jpeg", "image/jpg", "image/gif"].includes(
@@ -33,7 +35,7 @@ const PORT = 5000;
 app.use("/uploads", express.static("uploads")); //uploads 폴더 외부 노출
 
 //라우터 추가
-app.post("/upload", upload.single("imageTest"), (req, res) => {
+app.post("/upload", upload.single("image"), (req, res) => {
     console.log(req.file);
     res.json(req.file);
 });
