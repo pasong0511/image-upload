@@ -26,7 +26,7 @@ const UploadForm = () => {
         const formData = new FormData();
         formData.append("image", file); //서버의 upload.single("image") 이 부분이랑 key 맞춰줘야함
 
-        const res = await axios.post("/upload", formData, {
+        const res = await axios.post("/images", formData, {
             headers: { "Content-type": "multipart/form-data" },
             onUploadProgress: (ProgrssEvent) => {
                 //console.log(ProgrssEvent);

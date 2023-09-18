@@ -45,13 +45,19 @@ mongoose
         app.use("/uploads", express.static("uploads")); //uploads 폴더 외부 노출
 
         //라우터 추가
-        app.post("/upload", upload.single("image"), async (req, res) => {
+        app.post("/images", upload.single("image"), async (req, res) => {
             //몽고 db 모델 객체에 새로운 객체를 만들고 save() 해라
-            await new Image({
+            const images = await new Image({
                 key: req.file.fieldname,
                 originFileName: req.file.originalname,
             }).save();
-            res.json(req.file);
+            res.json(images);
+        });
+
+        app.get("/images", async (req, res) => {
+            //전체 이미지 다 찾아서 가져오기
+            const images = await Image.find();
+            res.json(images);
         });
 
         app.listen(PORT, () => console.log(`서버 ${PORT}번 살아있음~🚗`));
