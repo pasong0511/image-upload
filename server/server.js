@@ -5,6 +5,7 @@ const multer = require("multer"); //multer 미들웨어 추가
 const { v4: uuid } = require("uuid"); //uuid 추가
 const mime = require("mime-types"); //파일 확장자 제어
 const mongoose = require("mongoose");
+const Image = require("./models/Image");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, "./uploads"),
@@ -44,8 +45,12 @@ mongoose
         app.use("/uploads", express.static("uploads")); //uploads 폴더 외부 노출
 
         //라우터 추가
-        app.post("/upload", upload.single("image"), (req, res) => {
-            console.log(req.file);
+        app.post("/upload", upload.single("image"), async (req, res) => {
+            //몽고 db 모델 객체에 새로운 객체를 만들고 save() 해라
+            await new Image({
+                key: req.file.fieldname,
+                originFileName: req.file.originalname,
+            }).save();
             res.json(req.file);
         });
 
