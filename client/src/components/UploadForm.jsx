@@ -16,8 +16,9 @@ const UploadForm = () => {
         setFile(imageFile);
         setFileName(imageFile.name);
         const fileReader = new FileReader();
-        fileReader.readAsDataURL(imageFile);
-        fileReader.onload = (e) => setImgSrc(e.target.result);
+
+        fileReader.readAsDataURL(imageFile); //바이너리 파일을 Base64 Encode 문자열로 반환
+        fileReader.onload = (e) => setImgSrc(e.target.result); //읽기 동작이 성공적으로 완료되었을 때 발생
     };
 
     const onSubmit = async (e) => {
