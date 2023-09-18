@@ -48,7 +48,7 @@ mongoose
         app.post("/images", upload.single("image"), async (req, res) => {
             //몽고 db 모델 객체에 새로운 객체를 만들고 save() 해라
             const images = await new Image({
-                key: req.file.fieldname,
+                key: req.file.filename,
                 originFileName: req.file.originalname,
             }).save();
             res.json(images);
