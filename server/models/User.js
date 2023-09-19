@@ -8,6 +8,12 @@ const UserSchema = new mongoose.Schema(
             type: String,
             require: true,
         },
+        //세션 정보는 여러 기기 등에서 만들어질수있기 때문에 배열로 관리한다.
+        sessions: [
+            {
+                createdAt: { type: Date, require: true },
+            },
+        ],
     },
     { timestamps: true }
 );
