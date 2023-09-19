@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import "./UploadForm.css";
+import "../css/UploadForm.css";
 import { toast } from "react-toastify";
 import ProgressBar from "./ProgressBar";
 import ImageList from "./ImageList";
