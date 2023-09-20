@@ -73,6 +73,8 @@ userRouter.patch("/login", async (req, res) => {
 
 userRouter.patch("/logout", async (req, res) => {
     try {
+        console.log("🚚🚚🚚🚚", req);
+
         // //요청 헤데에 있는 settionId를 가져온다
         // const { sessionid } = req.headers;
         // //세션 정보가 잘못되었는지 체크..?
