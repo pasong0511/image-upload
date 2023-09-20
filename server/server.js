@@ -10,6 +10,8 @@ const { userRouter } = require("./routes/userRouter");
 const app = express();
 const { MONGODB_URI, PORT } = process.env;
 
+const { authenication } = require("./middleware/authenication");
+
 //db 연결 코드
 mongoose
     .connect(MONGODB_URI)
@@ -19,6 +21,7 @@ mongoose
         //db 켜지고 나서 서버 실행시키기 위해서 코드 이동
         app.use("/uploads", express.static("uploads"));
         app.use(express.json());
+        app.use(authenication);
         //body에 json 형태 있으면 js로 파싱
         //app.use(express.json());
         ///images 경로로 들어오는 요청은 imageRouter 가서 처리해라
