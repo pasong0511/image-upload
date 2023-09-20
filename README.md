@@ -8,4 +8,6 @@
 
 https://www.npmjs.com/package/react-toastify
 
-https://www.inflearn.com/questions/480635
+https://github.com/hoffnung8493/image-tutorial
+
+https://github.com/hoffnung8493/image-tutorial-frontend

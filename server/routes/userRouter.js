@@ -2,6 +2,7 @@
 const { Router } = require("express");
 const userRouter = Router();
 const { hash, compare } = require("bcryptjs");
+const mongoose = require("mongoose");
 
 const User = require("../models/User");
 
@@ -13,6 +14,11 @@ userRouter.post("/register", async (req, res) => {
         if (req.body.username.length < 3) {
             throw new Error("사용자 이름은 3 이상 입력 부탁");
         }
+
+        const resisterd_user = await User.findOne({
+            username: req.body.username,
+        });
+        if (resisterd_user) throw new Error("이미 가입된 이메일 입니다.");
 
         const hashedPassword = await hash(req.body.password, 10);
 
@@ -36,7 +42,7 @@ userRouter.post("/register", async (req, res) => {
     }
 });
 
-userRouter.post("/login", async (req, res) => {
+userRouter.patch("/login", async (req, res) => {
     try {
         //사용자 id를 찾는다.
         //findOne : findOne은 find 메서드에서 조회할때 가장 첫번째 배열 데이터 한개만 조회
@@ -61,6 +67,33 @@ userRouter.post("/login", async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        res.status(400).json({ message: err.message });
+    }
+});
+
+userRouter.patch("/logout", async (req, res) => {
+    try {
+        //요청 헤데에 있는 settionId를 가져온다
+        const { sessionid } = req.headers;
+        //세션 정보가 잘못되었는지 체크..?
+
+        if (!mongoose.isValidObjectId(sessionid))
+            throw new Error("invalid sessionid");
+
+        //요청 헤더에 있던 세션 id를 갖고 db에서 매칭킨다.
+        const user = await User.findOne({ "sessions._id": sessionid });
+
+        //인증된 유저가 아닌 겨웅
+        if (!user) throw new Error("인증된 세션 아이디 아님");
+
+        //로그아웃하면 해당 세션은 삭제한다.
+        await User.updateOne(
+            { _id: user.id },
+            { $pull: { sessions: { _id: sessionid } } }
+        );
+
+        res.json({ message: "유저 로그아웃" });
+    } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
