@@ -32,6 +32,8 @@ userRouter.post("/register", async (req, res) => {
         //여러개 있는 세선중에서 한개를 뽑는다
         const session = user.sessions[0];
 
+        console.log("111111111111", user);
+
         res.json({
             message: "유저 등록~~🛺",
             sessionId: session._id,

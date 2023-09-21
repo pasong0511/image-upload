@@ -5,6 +5,8 @@ import axios from "axios";
 
 import { AuthContext } from "../context/AuthContext";
 
+import { useNavigate } from "react-router-dom";
+
 const RegisterPage = () => {
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
@@ -12,6 +14,8 @@ const RegisterPage = () => {
     const [passwordCheck, setPasswordCheck] = useState("");
 
     const [me, setMe] = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const onChangeName = (e) => {
         setName(e.target.value);
@@ -51,6 +55,7 @@ const RegisterPage = () => {
             });
 
             console.log(result);
+            navigate("/");
             toast.success("회원가입 성공~");
             setMe({
                 userId: result.data.userId,
