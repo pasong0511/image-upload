@@ -2,12 +2,25 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Toolbar = () => {
     const [me, setMe] = useContext(AuthContext);
 
+    const logoutHandler = async () => {
+        try {
+            setMe();
+            await axios.patch("/users/logout");
+            toast.success("로그아웃했습니다~");
+        } catch (err) {
+            console.log(err);
+            toast.error(err.message);
+        }
+    };
+
     useEffect(() => {
-        console.log("미미미미미", me);
+        console.log("미미미", me);
     }, [me]);
 
     return (
@@ -17,7 +30,9 @@ const Toolbar = () => {
             </Link>
             {me ? (
                 <>
-                    <span style={{ float: "right" }}>로그아웃</span>
+                    <span onClick={logoutHandler} style={{ float: "right" }}>
+                        로그아웃
+                    </span>
                     <span style={{ float: "right", marginRight: 15 }}>
                         {me.name}님
                     </span>

@@ -13,8 +13,6 @@ const RegisterPage = () => {
 
     const [me, setMe] = useContext(AuthContext);
 
-    console.log("미미", me);
-
     const onChangeName = (e) => {
         setName(e.target.value);
     };
