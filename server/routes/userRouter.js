@@ -32,8 +32,6 @@ userRouter.post("/register", async (req, res) => {
         //여러개 있는 세선중에서 한개를 뽑는다
         const session = user.sessions[0];
 
-        console.log("111111111111", user);
-
         res.json({
             message: "유저 등록~~🛺",
             sessionId: session._id,
@@ -98,6 +96,24 @@ userRouter.patch("/logout", async (req, res) => {
         );
 
         res.json({ message: "유저 로그아웃" });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: err.message });
+    }
+});
+
+//로그인한 사용자의 정보를 가져온다.
+//이미 user가 있으므로 async 안해도 된다.
+userRouter.get("/me", (req, res) => {
+    try {
+        console.log("🚕🚕🚕", res);
+        if (!res.user) throw new Error("권한이 없습니다.");
+        res.json({
+            message: "성공",
+            sessionId: req.headers.sessionid,
+            name: req.headers.user.name,
+            userId: req.headers.user.username,
+        });
     } catch (err) {
         console.log(err);
         res.status(400).json({ message: err.message });
