@@ -106,13 +106,12 @@ userRouter.patch("/logout", async (req, res) => {
 //이미 user가 있으므로 async 안해도 된다.
 userRouter.get("/me", (req, res) => {
     try {
-        console.log("🚕🚕🚕", res);
-        if (!res.user) throw new Error("권한이 없습니다.");
+        if (!req.user) throw new Error("권한이 없습니다.");
         res.json({
             message: "성공",
             sessionId: req.headers.sessionid,
-            name: req.headers.user.name,
-            userId: req.headers.user.username,
+            name: req.user.name,
+            userId: req.user._id,
         });
     } catch (err) {
         console.log(err);

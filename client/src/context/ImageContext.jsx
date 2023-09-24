@@ -18,8 +18,6 @@ export const ImageProvider = (prop) => {
             .catch((err) => console.log(err));
     }, []);
 
-    console.log(images);
-
     return (
         <ImageContext.Provider value={{ images, setImages }}>
             {prop.children}

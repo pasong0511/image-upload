@@ -19,10 +19,6 @@ const Toolbar = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("미미미", me);
-    }, [me]);
-
     return (
         <div>
             <Link to="/">

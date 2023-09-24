@@ -7,13 +7,33 @@ export const AuthProvider = ({ children }) => {
     const [me, setMe] = useState();
 
     useEffect(() => {
+        const sessionId = localStorage.getItem("sessionId");
+
+        console.log("찍기", me);
+        console.log("세션 아이디-->", sessionId);
+
         if (me) {
             //헤더 정보에 디폴트 정보 주기
             axios.defaults.headers.common.sessionid = me.sessionId;
-
-            console.log("찍기", me);
-
             localStorage.setItem("sessionId", me.sessionId);
+        } else if (sessionId) {
+            //로컬 스토리지에 있는 세션 정보로 다시 api 요청해서
+            //로그인 정보 불러오기
+            axios
+                .get("/users/me", { headers: { sessionid: sessionId } })
+                .then((result) =>
+                    setMe({
+                        name: result.data.name,
+                        userId: result.data.userId,
+                        sessionId: result.data.sessionId,
+                    })
+                )
+                .catch((err) => {
+                    //만료된 세션 정보는 지우기
+                    console.error(err);
+                    localStorage.removeItem("sessionId");
+                    delete axios.defaults.headers.common.sessionid;
+                });
         } else {
             delete axios.defaults.headers.common.sessionid;
         }
