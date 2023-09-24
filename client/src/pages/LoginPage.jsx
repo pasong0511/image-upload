@@ -40,7 +40,8 @@ const LoginPage = () => {
             console.log(result);
             toast.success("로그인 성공~");
         } catch (err) {
-            toast.error(err.message);
+            console.log(err.response);
+            toast.error(err.response.data.message);
         }
     };
 
