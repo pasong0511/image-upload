@@ -10,8 +10,8 @@ const Toolbar = () => {
 
     const logoutHandler = async () => {
         try {
-            setMe();
             await axios.patch("/users/logout");
+            setMe();
             toast.success("로그아웃했습니다~");
         } catch (err) {
             console.log(err);
@@ -39,11 +39,11 @@ const Toolbar = () => {
             ) : (
                 <>
                     <Link to="/auth/register">
-                        <span style={{ float: "right" }}>로그인</span>
+                        <span style={{ float: "right" }}>회원가입</span>
                     </Link>
                     <Link to="/auth/login">
                         <span style={{ float: "right", marginRight: 15 }}>
-                            회원가입
+                            로그인
                         </span>
                     </Link>
                 </>

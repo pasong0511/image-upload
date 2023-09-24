@@ -31,6 +31,7 @@ const LoginPage = () => {
                 username,
                 password,
             });
+            //axios.defaults.headers.common.sessionid = result.data.sessionId; //세선 아이디 추가
             setMe({
                 name: result.data.name,
                 sessionId: result.data.sessionId,
