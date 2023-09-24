@@ -5,6 +5,7 @@ const { hash, compare } = require("bcryptjs");
 const mongoose = require("mongoose");
 
 const User = require("../models/User");
+const Image = require("../models/Image");
 
 userRouter.post("/register", async (req, res) => {
     try {
@@ -118,8 +119,18 @@ userRouter.get("/me", (req, res) => {
 });
 
 //내가 올린 사진만 보여주기
-userRouter.get(",e", (req, res) => {
+userRouter.get("/me/images", async (req, res) => {
     //본인의 사진들만 리턴(public === false);
+    try {
+        if (!req.user) throw new Error("권한이 없습니다.");
+        //"user._id"여기서 빨간줄 뜨면 ""로 묶어주면 몽고디비가 알아서 함
+        //"user._id"를 통해서 user를 들고있는 이미지 정보만 가져온다.
+        const images = await Image.find({ "user._id": req.user.id });
+        res.json(images); //배열 그대로 보내주자
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: err.message });
+    }
 });
 
 module.exports = { userRouter };
