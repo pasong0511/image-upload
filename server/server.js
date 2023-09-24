@@ -21,7 +21,7 @@ mongoose
         //db 켜지고 나서 서버 실행시키기 위해서 코드 이동
         app.use("/uploads", express.static("uploads"));
         app.use(express.json());
-        app.use(authenication);
+        app.use(authenication); //<--- 라우터 가기 전에 미들웨어 통과시킴
         //body에 json 형태 있으면 js로 파싱
         //app.use(express.json());
         ///images 경로로 들어오는 요청은 imageRouter 가서 처리해라
