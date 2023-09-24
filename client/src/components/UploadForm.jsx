@@ -14,6 +14,7 @@ const UploadForm = () => {
     const [imgSrc, setImgSrc] = useState(null);
     const [fileName, setFileName] = useState(defaultFilaName);
     const [percent, setPercent] = useState(0);
+    const [isPublic, setIsPublic] = useState(false); //true 이면 공개, false이면 나만 보기
 
     const handleImageSelect = (e) => {
         const imageFile = e.target.files[0];
@@ -28,7 +29,10 @@ const UploadForm = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+
+        //form 데이터에 추가할때는 append를 사용해서 key, value로 붙인다.
         formData.append("image", file); //서버의 upload.single("image") 이 부분이랑 key 맞춰줘야함
+        formData.append("public", isPublic);
 
         const res = await axios.post("/images", formData, {
             headers: { "Content-type": "multipart/form-data" },
@@ -50,10 +54,12 @@ const UploadForm = () => {
         } catch (err) {
             setPercent(0);
             setFileName(defaultFilaName);
-            toast.error("이미지 업로드 실패");
+            toast.error(err.response.data.message);
             setImgSrc(null);
         }
     };
+
+    console.log({ isPublic });
 
     return (
         <form onSubmit={onSubmit}>
@@ -73,6 +79,13 @@ const UploadForm = () => {
                     onChange={handleImageSelect}
                 />
             </div>
+            <input
+                type="checkbox"
+                id="public-check"
+                value={!isPublic}
+                onChange={() => setIsPublic(!isPublic)}
+            />
+            <label htmlFor="public-check">비공개</label>
             <button type="submit" className="file-submit-button">
                 제출
             </button>
