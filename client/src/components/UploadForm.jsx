@@ -58,6 +58,7 @@ const UploadForm = () => {
     return (
         <form onSubmit={onSubmit}>
             <img
+                alt=""
                 src={imgSrc}
                 className={`image-preview ${imgSrc && "image-preview-show"}`}
             />
