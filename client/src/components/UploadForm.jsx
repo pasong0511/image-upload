@@ -7,12 +7,12 @@ import ImageList from "./ImageList";
 import { ImageContext } from "../context/ImageContext";
 
 const UploadForm = () => {
-    const { images, setImages, myImages, setMyImages } =
+    const { myImages, images, setImages, setMyImages } =
         useContext(ImageContext);
 
     const defaultFilaName = "이미지 파일을 업로드 해주세요";
     const [file, setFile] = useState(null);
-    const { imgSrc, setImgSrc } = useState(null);
+    const [imgSrc, setImgSrc] = useState(null);
     const [fileName, setFileName] = useState(defaultFilaName);
     const [percent, setPercent] = useState(0);
     const [isPublic, setIsPublic] = useState(false); //true 이면 공개, false이면 나만 보기
@@ -24,7 +24,9 @@ const UploadForm = () => {
         const fileReader = new FileReader();
 
         fileReader.readAsDataURL(imageFile); //바이너리 파일을 Base64 Encode 문자열로 반환
-        fileReader.onload = (e) => setImgSrc(e.target.result); //읽기 동작이 성공적으로 완료되었을 때 발생
+        fileReader.onload = (e) => {
+            setImgSrc(e.target.result);
+        }; //읽기 동작이 성공적으로 완료되었을 때 발생
     };
 
     const onSubmit = async (e) => {
@@ -49,10 +51,8 @@ const UploadForm = () => {
         });
 
         //파일 올리고 나서 이미지 파일 보여주기(api 요청 안하고도 이미지 파일 보여줌)
-        if (isPublic) {
-            setImages((prevData) => [...res.data, ...prevData]);
-        }
-        setMyImages((prevData) => [...res.data, ...prevData]);
+        if (isPublic) setImages([...images, res.data]);
+        setMyImages([...myImages, res.data]);
 
         toast.success("이미지 업로드 성공");
         setTimeout(() => {
@@ -68,8 +68,6 @@ const UploadForm = () => {
             setImgSrc(null);
         }
     };
-
-    console.log({ isPublic });
 
     return (
         <form onSubmit={onSubmit}>

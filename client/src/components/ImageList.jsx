@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { ImageContext } from "../context/ImageContext";
 
 const ImageList = () => {
-    const { me } = useContext(AuthContext);
+    const [me] = useContext(AuthContext);
     const { images, myImages, isPublic, setIsPublic } =
         useContext(ImageContext);
 
@@ -19,12 +19,12 @@ const ImageList = () => {
     return (
         <div>
             <div>
-                <h3 style={{ display: "inline", marginRight: 10 }}>
-                    {`이미지 리스트(${!isPublic ? "개인" : "공개"} 사진)`}
+                <h3 style={{ display: "inline-block", marginRight: 10 }}>
+                    이미지 리스트({isPublic ? "공개" : "개인"} 사진)
                 </h3>
                 {me && (
                     <button onClick={() => setIsPublic(!isPublic)}>
-                        {isPublic ? "개인" : "공개"}사진보기
+                        {(isPublic ? "개인" : "공개") + " 사진 보기"}
                     </button>
                 )}
             </div>
