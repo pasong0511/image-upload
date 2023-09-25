@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ImageContext } from "../context/ImageContext";
+import "../css/ImageList.css";
 
 const ImageList = () => {
     const [me] = useContext(AuthContext);
@@ -11,7 +12,6 @@ const ImageList = () => {
         <img
             alt=""
             key={image.key}
-            style={{ width: "100%" }}
             src={`http://localhost:5000/uploads/${image.key}`}
         />
     ));
@@ -28,7 +28,7 @@ const ImageList = () => {
                     </button>
                 )}
             </div>
-            {imageList}
+            <div className="image-list-container">{imageList}</div>
         </div>
     );
 };

@@ -59,6 +59,7 @@ const UploadForm = () => {
             setPercent(0);
             setFileName(defaultFilaName);
             setImgSrc(null);
+            setFile(null);
         }, 2000);
         try {
         } catch (err) {
@@ -66,6 +67,7 @@ const UploadForm = () => {
             setFileName(defaultFilaName);
             toast.error(err.response.data.message);
             setImgSrc(null);
+            setFile(null);
         }
     };
 
