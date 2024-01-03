@@ -41,9 +41,13 @@ MONGODB_URI="mongodb+srv://psh6654:psh6654@cluster0.hmttf0w.mongodb.net/?retryWr
 PORT="5000"
 ```
 
-## 클라이언트
-
 미들웨어 라이브러리
 이미지 업로드
 multer
 : 이미지, 동영상 등 파일들을 멀티파트 형식으로 업로드 할 때 사용하는 미들웨어
+
+## 클라이언트
+
+cd client
+npm i
+npm run start
