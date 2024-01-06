@@ -3,7 +3,10 @@ const { Router } = require("express");
 const mongoose = require("mongoose");
 const imageRouter = Router();
 
+//모델(스키마) 정보
 const Image = require("../models/Image");
+
+//업로드 미들웨어
 const { upload } = require("../middleware/imageUpload"); //multer 미들웨어 만들어둔 객체
 
 const fs = require("fs");
@@ -22,6 +25,10 @@ imageRouter.post("/", upload.single("image"), async (req, res) => {
     //미들웨어에서 로그인한 유저가 없는 경우
     if (!req.user) throw new Error("권한 없음");
 
+    //요청으로 들어온 정보를 바탕으로 이미지 모델 정보를 만들어준다.
+    //.save(); 하면 db에 저장된다.
+    //저장될 떄 까지 기다린 후에(비동기) 완료 되면 결과가 나오고
+    //그 결과를 다시 클라리언트에게 json 형태로 반환해준다.
     const images = await new Image({
       user: {
         _id: req.user.id,
