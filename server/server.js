@@ -11,7 +11,7 @@ const fs = require("fs");
 const app = express();
 const { MONGODB_URI, PORT } = process.env;
 
-const { authenication } = require("./middleware/authenication");
+const { authenticate } = require("./middleware/authentication");
 
 try {
   fs.readdirSync("uploads");
@@ -43,7 +43,7 @@ mongoose
     //------------
     //라우터 가기 전에 authenication 미들웨어 통과시킴
     //------------
-    app.use(authenication);
+    app.use(authenticate);
 
     //------------
     // images 경로로 들어오는 모든 요청을 imageRouter 모듈에 위임
