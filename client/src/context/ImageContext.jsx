@@ -9,6 +9,8 @@ export const ImageContext = createContext();
 export const ImageProvider = (prop) => {
   const [images, setImages] = useState([]); //공개 사진
   const [myImages, setMyImages] = useState([]); //개인 사진
+
+  //AuthProvider -> ImageProvider 이니까 me를 불러오는 것이 가능하다.
   const [me] = useContext(AuthContext);
   const [isPublic, setIsPublic] = useState(false);
 
@@ -17,6 +19,7 @@ export const ImageProvider = (prop) => {
 
   //처음 로딩할때
   useEffect(() => {
+    //공개 이미지 불러오기
     axios
       .get("/images")
       .then((result) => setImages(result.data))
@@ -26,6 +29,7 @@ export const ImageProvider = (prop) => {
   //로그인해서 me가 변경되었을 때
   useEffect(() => {
     if (me) {
+      //개인 이미지 불러오기
       setTimeout(
         () =>
           axios
