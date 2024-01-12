@@ -60,13 +60,13 @@ imageRouter.delete("/:imageId", async (req, res) => {
   //1. upload 폴더에 있는 사진 데이터를 삭제
   //2. 데이터베이스에 있는 image 문서를 삭제
   try {
-    console.log(req.params);
+    console.log("삭제~~", req.params.imageId);
     //:imageid는 req.params이렇게 넘어온다.
 
     if (!req.user) throw new Error("권한이 없습니다.");
 
     if (!mongoose.isValidObjectId(req.params.imageId))
-      throw new Error("없는 이미지 아이디입니다.");
+      throw new Error("올바르지 않은 이미지id입니다.");
     //1. upload 폴더에 있는 사진 데이터를 삭제
     //서버 uploads 폴더에 있는 이미지 파일 자체를 지워야하므로 fs이용
     //fs.unlink();      //이런 형태 안쓰고 promise를 반환하는 함수를 사용할것임
@@ -75,12 +75,12 @@ imageRouter.delete("/:imageId", async (req, res) => {
     if (!image)
       return res.json({ message: "이미 삭제된 이미지입니다." }, image);
     await fileUnlink(`./uploads/${image.key}`);
-    res.json({ message: "요청하신 이미지가 삭제되었습니다." }, image);
+    res.json({ message: "요청하신 이미지가 삭제되었습니다.", image });
 
     //2.
   } catch (err) {
     console.log(err);
-    res.json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 });
 
